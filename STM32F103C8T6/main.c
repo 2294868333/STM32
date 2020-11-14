@@ -1,4 +1,3 @@
-#include "stm32f10x.h"
 #define uchar  unsigned char
 #define uint   unsigned int
 uint i,j;
@@ -11,16 +10,16 @@ void delay()
 int main()
 {
 	//设置APB2外设时钟使能寄存器使能
-	RCC_APB2ENR |= (1<<4);
+	 *(unsigned int*)0x40021018 |= (1<<4);
 	//端口配置高寄存器
-	GPIOC->CRH |= (1<<(4*5));
+	 *(unsigned int*)0x40011004 |= (1<<(4*5));
 	//端口输出数据寄存器
 	while(1)
 	{
-	GPIOC->ODR &= ~(1<<13);
-	delay();
-	GPIOC->ODR |= (1<<13);
-	delay();
+	  *(unsigned int*)0x4001100C &= ~(1<<13);
+	  delay();
+	  *(unsigned int*)0x4001100C |= (1<<13);
+	  delay();
 	}
 }
 
@@ -28,4 +27,6 @@ void SystemInit(void)
 {
 	
 }
+
+
 	
